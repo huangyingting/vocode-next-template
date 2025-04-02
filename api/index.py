@@ -59,6 +59,13 @@ def get_system_prompt():
 conversation_router = ConversationRouter(
     agent_thunk=lambda: ChatGPTAgent(
         ChatGPTAgentConfig(
+            azure_params={
+                "base_url": os.getenv("AZURE_API_BASE"),
+                "api_key": os.getenv("AZURE_API_KEY"),
+                "api_version": os.getenv("AZURE_API_VERSION"),
+                "region": "japaneast",
+                "openai_model_name": os.getenv("AZURE_DEPLOYMENT_NAME"),
+            },
             initial_message=BaseMessage(text=INITIAL_MESSAGE),
             prompt_preamble=get_system_prompt(),
         )
@@ -68,7 +75,7 @@ conversation_router = ConversationRouter(
             output_audio_config, voice_name="en-US-SteffanNeural"
         )
     ),
-    logger=logger,
+    # logger=logger,
     conversation_endpoint="/api/python/conversation",
 )
 
